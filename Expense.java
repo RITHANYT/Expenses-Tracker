@@ -1,6 +1,7 @@
 import java.time.LocalDate;
-
-public class Expense {
+import java.io.Serializable;
+public class Expense implements Serializable {
+    private static final long serialVersionUID = 1L;
     private double amount;
     private String category;
     private LocalDate date;

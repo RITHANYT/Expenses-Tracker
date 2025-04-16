@@ -1,4 +1,5 @@
 import java.io.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class ExpenseManager {
@@ -41,6 +42,43 @@ public class ExpenseManager {
             expenses = (ArrayList<Expense>) in.readObject();
         }catch (IOException | ClassNotFoundException e){
             System.out.println("Error loading from file: "+e.getMessage());
+        }
+    }
+
+    public void deleteExpense(int index){
+        if(index>0 && index<=expenses.size()){
+            expenses.remove(index);
+            System.out.println("Expense deleted");
+        }
+        else{
+            System.out.println("Invalid index number");
+        }
+    }
+    public void updateExpenses(int index,double amount,String category,String description){
+        if(index>0 && index<=expenses.size()){
+            Expense old = expenses.get(index);
+            expenses.set(index,new Expense(amount,category,old.getdate(),description));
+            System.out.println("Expense updated");
+        }
+        else{
+            System.out.println("Invalid index number");
+        }
+    }
+    public void filterByDate(LocalDate start,LocalDate end){
+        for(Expense expense:expenses){
+            if((expense.getdate().isEqual(start) || expense.getdate().isAfter(start))
+               && (expense.getdate().isEqual(end)|| expense.getdate().isBefore(end))){
+                System.out.println(expense);
+            }
+        }
+    }
+    public void viewExpenseWithIndex(){
+        if(expenses.isEmpty()){
+            System.out.println("No expenses found.");
+            return;
+        }
+        for (int i=1;i<expenses.size();i++){
+            System.out.println(i+". "+expenses.get(i));
         }
     }
 }
